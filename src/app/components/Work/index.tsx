@@ -49,14 +49,14 @@ const Work = () => {
 
                     {workdata.map((items, i) => (
                         <div className='card-b p-8' key={i}>
-                            <div className='work-img-bg rounded-full flex justify-center absolute p-6'>
+                            <div className='work-img-bg rounded-full flex justify-center absolute p-6 overflow-hidden'>
                                 <Image src={items.imgSrc} alt={items.imgSrc} width={44} height={44} />
                             </div>
                             <div>
                                 <Image src={'/images/Work/bg-arrow.svg'} alt="arrow-bg" width={85} height={35} />
                             </div>
                             <h3 className='text-2xl text-offwhite font-semibold text-center mt-8'>{items.heading}</h3>
-                            <p className='text-base font-normal text-bluish text-center mt-2'>{items.subheading}</p>
+                            <p className='text-base font-normal text-bluish text-center mt-2 overflow-hidden'>{items.subheading}</p>
                         </div>
                     ))}
 
