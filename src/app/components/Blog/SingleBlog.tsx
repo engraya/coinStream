@@ -1,8 +1,7 @@
-import { Blog } from "@/types/blog";
 import Image from "next/image";
 import Link from "next/link";
 
-const SingleBlog = ({ blog }: { blog: Blog }) => {
+const SingleBlog = ({ blog }: { blog: any }) => {
   const { title, image, paragraph, author, tags, publishDate } = blog;
   return (
     <>
