@@ -1,11 +1,11 @@
 import React from 'react'
-
+import Image from 'next/image'
 function NewsCard() {
   return (
     <div className="group relative cursor-pointer overflow-hidden bg-white shadow-xl ring-1 ring-gray-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:mx-auto sm:max-w-sm sm:rounded-lg">
     <span className="absolute top-10 z-0 rounded-full bg-teal-800 transition-all duration-300 group-hover:scale-[10]" />
     <div>
-  <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606" alt="Mountain" className="w-full h-32 object-cover" />
+  <Image src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606" width={70} height={70} alt="Mountain" className="w-full h-32 object-cover" />
   <div className="p-4">
     <h2 className="text-md font-bold text-gray-800 mb-2">Beautiful Mountain View</h2>
     <p className="text-gray-700 leading-tight mb-4">

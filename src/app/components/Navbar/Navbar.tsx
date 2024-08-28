@@ -4,7 +4,7 @@ import React from 'react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import Drawer from "./Drawer";
 import Drawerdata from "./Drawerdata";
-
+import Image from 'next/image';
 interface NavigationItem {
     name: string;
     href: string;
@@ -37,15 +37,19 @@ const Navbar = () => {
                         <div className="flex flex-1 items-center sm:justify-between">
                             {/* LOGO */}
                             <div className="flex flex-shrink-0 items-center">
-                                <img
+                                <Image
                                     className="block h-10 w-20px lg:hidden"
                                     src={'/images/Logo/logo.svg'}
                                     alt="Crypto-Logo"
+                                    width={70}
+                                    height={70}
                                 />
-                                <img
+                                <Image
                                     className="hidden h-48px w-48px lg:block"
                                     src={'/images/Logo/logo.svg'}
                                     alt="Crypto-Logo"
+                                    width={70}
+                                    height={70}
                                 />
                             </div>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Image from 'next/image'
 function ExchangeTable() {
   return (
 <div className="flex flex-col mt-8">
@@ -19,7 +19,7 @@ function ExchangeTable() {
             <tr className="transition-all duration-500 hover:bg-white hover:text-blue">
               <td className="px-3 py-3">
                 <div className="flex items-center gap-3">
-                  <img src="/images/Table/bitcoin.svg" alt="Floyd image" />
+                  <Image src="/images/Table/bitcoin.svg" width={70} height={70} alt="Floyd image" />
                   <div className="data">
                     <p className="font-normal text-sm text-gray-900">BitCoin</p>
                   </div>
@@ -32,7 +32,7 @@ function ExchangeTable() {
             <tr className="transition-all duration-500 hover:bg-white hover:text-blue">
               <td className="px-3 py-3">
                 <div className="flex items-center gap-3">
-                  <img src="/images/Table/cryptoone.svg" alt="Floyd image" />
+                  <Image src="/images/Table/cryptoone.svg" width={70} height={70} alt="Floyd image" />
                   <div className="data">
                     <p className="font-normal text-sm text-gray-900">BitCoin</p>
                   </div>
@@ -45,7 +45,7 @@ function ExchangeTable() {
             <tr className="transition-all duration-500 hover:bg-white hover:text-blue">
               <td className="px-3 py-3">
                 <div className="flex items-center gap-3">
-                  <img src="/images/Table/cryptothree.svg" alt="Floyd image" />
+                  <Image src="/images/Table/cryptothree.svg" width={70} height={70} alt="Floyd image" />
                   <div className="data">
                     <p className="font-normal text-sm text-gray-900">BitCoin</p>
                   </div>
@@ -58,7 +58,7 @@ function ExchangeTable() {
             <tr className="transition-all duration-500 hover:bg-white hover:text-blue">
               <td className="px-3 py-3">
                 <div className="flex items-center gap-3">
-                  <img src="/images/Table/cryptotwo.svg" alt="Floyd image" />
+                  <Image src="/images/Table/cryptotwo.svg" width={70} height={70} alt="Floyd image" />
                   <div className="data">
                     <p className="font-normal text-sm text-gray-900">BitCoin</p>
                   </div>

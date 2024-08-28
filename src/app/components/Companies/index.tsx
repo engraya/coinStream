@@ -1,7 +1,7 @@
 "use client"
 import React, { Component } from "react";
 import Slider from "react-slick";
-
+import Image from "next/image";
 // IMAGES DATA FOR CAROUSEL
 interface Data {
     imgSrc: string;
@@ -81,7 +81,7 @@ export default class MultipleItems extends Component {
                         <Slider {...settings}>
                             {data.map((item, i) =>
                                 <div key={i}>
-                                    <img src={item.imgSrc} alt={item.imgSrc} height={70} width={70} />
+                                    <Image src={item.imgSrc} alt={item.imgSrc} height={70} width={70} />
                                 </div>
                             )}
                         </Slider>

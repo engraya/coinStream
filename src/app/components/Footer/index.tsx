@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-
 // MIDDLE LINKS DATA
 interface ProductType {
   id: number;
@@ -39,15 +38,17 @@ const footer = () => {
           {/* COLUMN-1 */}
 
           <div className='col-span-6'>
-            <img
+            <Image
               className="block h-12 w-20px mb-4"
               src={'/images/Logo/logo.svg'}
+              width={70}
+              height={70}
               alt="Crypto-Logo"
             />
             <h3 className='text-lightblue text-sm font-normal leading-9 mb-4 lg:mb-16'>CoinStream is a cutting-edge platform that offers comprehensive services for cryptocurrency enthusiasts. We provide real-time data, the latest news, and in-depth exchange insights, empowering users with the knowledge and tools needed to navigate the dynamic world of cryptocurrencies</h3>
             <div className='flex gap-4'>
               {socialLinks.map((items, i) => (
-                <Link href={items.href} key={i}><img src={items.imgsrc} alt={items.imgsrc} className='footer-icons' /></Link>
+                <Link href={items.href} key={i}><Image src={items.imgsrc} width={70} height={70} alt={items.imgsrc} className='footer-icons' /></Link>
               ))}
             </div>
           </div>

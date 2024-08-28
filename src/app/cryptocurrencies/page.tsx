@@ -20,7 +20,7 @@ async function CryptoCurrencies() {
   <div className="grid gap-14 md:grid-cols-4 md:gap-5">
     {currencies?.data.coins.map((currency : any) => (
     <Link
-    href={`/cryptocurrencies/${currency.uuid}`}>
+    href={`/cryptocurrencies/${currency.uuid}`} key={currency.uuid}>
        <CoinCard currency={currency}/>
    </Link>
     ))}
