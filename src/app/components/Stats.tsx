@@ -1,6 +1,10 @@
 import React from 'react'
+import { getStats } from '@data/coinData'
 
-function Stats() {
+async function Stats() {
+
+  const statsData = await getStats()
+
   return (
 <section id="works" className="relative bg-gray-900 py-10">
   <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -44,19 +48,19 @@ function Stats() {
       </div>
       <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-5">
   <div className="flex flex-col bg-white/5 p-8">
-    <dd className="order-first text-3xl font-semibold tracking-tight text-white">12, 686</dd>
+    <dd className="order-first text-2xl font-semibold tracking-tight text-white">{statsData?.data?.totalCoins}</dd>
   </div>
   <div className="flex flex-col bg-white/5 p-8">
-    <dd className="order-first text-3xl font-semibold tracking-tight text-white">100,320k</dd>
+    <dd className="order-first text-2xl font-semibold tracking-tight text-white">{statsData?.data?.totalMarkets}</dd>
   </div>
   <div className="flex flex-col bg-white/5 p-8">
-    <dd className="order-first text-3xl font-semibold tracking-tight text-white">67T</dd>
+    <dd className="order-first text-2xl font-semibold tracking-tight text-white">{statsData?.data?.totalMarketCap}</dd>
   </div>
   <div className="flex flex-col bg-white/5 p-8">
-    <dd className="order-first text-3xl font-semibold tracking-tight text-white">245B</dd>
+    <dd className="order-first text-2xl font-semibold tracking-tight text-white">{statsData?.data?.total24hVolume}</dd>
   </div>
   <div className="flex flex-col bg-white/5 p-8">
-    <dd className="order-first text-3xl font-semibold tracking-tight text-white">678</dd>
+    <dd className="order-first text-2xl font-semibold tracking-tight text-white">{statsData?.data?.totalExchanges}</dd>
   </div>
 </dl>
 

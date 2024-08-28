@@ -38,7 +38,7 @@ html:not([data-scroll="0"]) .navbar {
 }
 
 .navbutton {
-  background: linear-gradient(90deg, #BD24DF 0%, #2D6ADE 97.15%);
+  background: linear-gradient(90deg, #41aabd 0%, #2D6ADE 97.15%);
   border-radius: 10px;
 }
 

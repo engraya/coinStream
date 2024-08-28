@@ -1,8 +1,13 @@
 import React from 'react'
 import PagesContainer from '../components/PagesContainer'
 import CoinCard from '../components/CoinCard'
+import Link from 'next/link'
+import { getCryptoCurrencies } from '@data/coinData'
+async function CryptoCurrencies() {
 
-function CryptoCurrencies() {
+  const currencies = await getCryptoCurrencies();
+
+  console.log("Currencies", currencies)
   return (
     <>
     <PagesContainer>
@@ -13,22 +18,12 @@ function CryptoCurrencies() {
     </div>
     <div className="h-full min-h-screen w-full bg-gray-800 pt-12 p-4">
   <div className="grid gap-14 md:grid-cols-4 md:gap-5">
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
-    <CoinCard/>
+    {currencies?.data.coins.map((currency : any) => (
+    <Link
+    href={`/cryptocurrencies/${currency.uuid}`}>
+       <CoinCard currency={currency}/>
+   </Link>
+    ))}
   </div>
   </div>
   <div className="flex justify-center items-center mt-8">
@@ -39,7 +34,6 @@ function CryptoCurrencies() {
     </a>
   </button>
 </div>
-
     </PagesContainer>
     </>
 
