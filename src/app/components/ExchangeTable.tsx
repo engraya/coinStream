@@ -22,7 +22,7 @@ async function ExchangeTable() {
           </thead>
           <tbody className="text-white divide-y divide-gray-300 ">
             {coins.data.coins.map((coin : any) => (
-            <tr className="transition-all duration-500 hover:bg-white hover:text-blue">
+            <tr key={coin.uuid} className="transition-all duration-500 hover:bg-white hover:text-blue">
             <td className="px-3 py-3">
               <div className="flex items-center gap-3">
                 <Image src={coin.iconUrl} width={50} height={50} alt="image" />
