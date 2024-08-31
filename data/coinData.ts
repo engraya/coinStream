@@ -51,3 +51,27 @@ export async function getCryptoCurrencies() {
   }
 
 }
+
+
+export async function getCryptoById(id : any) {
+  const options = {
+    method: 'GET',
+    url: `https://coinranking1.p.rapidapi.com/coin/${id}`,
+    params: {
+      referenceCurrencyUuid: 'yhjMzLPhuIDl',
+      timePeriod: '24h',
+    },
+    headers: {
+      'x-rapidapi-key': process.env.NEXT_PUBLIC_RAPID_API_KEY,
+      'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response?.data;
+  } catch (error) {
+    console.error('Error fetching crypto data:', error);
+    throw error;
+  }
+}

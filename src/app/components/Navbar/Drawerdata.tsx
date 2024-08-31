@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
+import { logo } from "@public/images/images";
 interface NavigationItem {
     name: string;
     href: string;
@@ -8,10 +8,11 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
-    { name: 'Home', href: '#home-section', current: false },
-    { name: 'Exchange', href: '#exchange-section', current: false },
-    { name: 'Features', href: '#features-section', current: false },
-    { name: 'FAQ', href: '#faq-section', current: false },
+    { name: 'Home', href: '/', current: false },
+    { name: 'Currencies', href: '/currencies', current: false },
+    { name: 'Exchange', href: '/exchanges', current: false },
+    // { name: 'Features', href: '#features-section', current: false },
+    // { name: 'FAQ', href: '#faq-section', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -38,9 +39,6 @@ const Data = () => {
                             </Link>
                         ))}
                         <div className="mt-4"></div>
-                        <button className="bg-navyblue w-full hover:text-white text-white border border-purple font-medium py-2 px-4 rounded">
-                            Connect Wallet
-                        </button>
                     </div>
                 </div>
             </div>

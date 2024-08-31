@@ -5,6 +5,7 @@ import { Bars3Icon } from '@heroicons/react/24/outline';
 import Drawer from "./Drawer";
 import Drawerdata from "./Drawerdata";
 import Image from 'next/image';
+import { logo } from '@public/images/images';
 interface NavigationItem {
     name: string;
     href: string;
@@ -13,12 +14,11 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
     { name: 'Home', href: '/', current: false },
-    { name: 'Stats', href: '/stats', current: false },
     { name: 'Currencies', href: '/cryptocurrencies', current: false },
     { name: 'Exchanges', href: '/exchanges', current: false },
-    { name: 'News', href: '/news', current: false },
-    { name: 'Features', href: '#features-section', current: false },
-    { name: 'FAQ', href: '#faq-section', current: false },
+    // { name: 'News', href: '/news', current: false },
+    // { name: 'Features', href: '#features-section', current: false },
+    // { name: 'FAQ', href: '#faq-section', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -37,20 +37,25 @@ const Navbar = () => {
                         <div className="flex flex-1 items-center sm:justify-between">
                             {/* LOGO */}
                             <div className="flex flex-shrink-0 items-center">
-                                <Image
-                                    className="block h-10 w-20px lg:hidden"
-                                    src={'/images/Logo/logo.svg'}
-                                    alt="Crypto-Logo"
-                                    width={70}
-                                    height={70}
-                                />
+                                <Link href="/">
+                                    <Image
+                                        className="block h-10 w-20px lg:hidden"
+                                        src={logo}
+                                        alt="Crypto-Logo"
+                                        width={70}
+                                        height={70}
+                                    />
+                                </Link>
+                                <Link href="/">
                                 <Image
                                     className="hidden h-48px w-48px lg:block"
-                                    src={'/images/Logo/logo.svg'}
+                                    src={logo}
                                     alt="Crypto-Logo"
                                     width={70}
                                     height={70}
                                 />
+                                </Link>
+            
                             </div>
 
                             {/* LINKS */}
