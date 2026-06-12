@@ -44,7 +44,7 @@ export interface ExchangeListResponse {
 }
 
 export interface NewsItem {
-  id: number;
+  id: string | number;
   title: string;
   slug: string;
   url: string;

@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
 
+interface GNewsArticle {
+  title: string;
+  url: string;
+  publishedAt: string;
+  source: { name: string; url: string };
+}
+
 export async function GET() {
-  const token = process.env.CRYPTOPANIC_API_TOKEN;
+  const token = process.env.GNEWS_API_KEY;
 
   if (!token) {
     return NextResponse.json({ available: false, results: [] });
@@ -9,7 +16,7 @@ export async function GET() {
 
   try {
     const res = await fetch(
-      `https://cryptopanic.com/api/v1/posts/?auth_token=${token}&kind=news&public=true`,
+      `https://gnews.io/api/v4/search?q=cryptocurrency&lang=en&max=9&sortby=publishedAt&apikey=${token}`,
       { next: { revalidate: 300 } }
     );
 
@@ -18,7 +25,19 @@ export async function GET() {
     }
 
     const data = await res.json();
-    return NextResponse.json({ available: true, ...data }, {
+
+    const results = (data.articles as GNewsArticle[]).map((a) => ({
+      id: a.url,
+      title: a.title,
+      slug: '',
+      url: a.url,
+      domain: a.source.url ?? '',
+      published_at: a.publishedAt,
+      currencies: [],
+      source: { title: a.source.name, domain: a.source.url ?? '' },
+    }));
+
+    return NextResponse.json({ available: true, results, count: results.length }, {
       headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' },
     });
   } catch {

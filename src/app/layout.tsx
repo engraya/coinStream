@@ -7,7 +7,11 @@ export const metadata = {
   title: 'CoinStream — Real-Time Crypto Tracker',
   description: 'Track real-time cryptocurrency prices, market caps, exchanges, and trends with CoinStream.',
   icons: {
-    icon: '/logo.svg',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/favicon.svg',
   },
 };
 

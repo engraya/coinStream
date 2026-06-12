@@ -6,42 +6,49 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
     './src/**/*.{js,ts,jsx,tsx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Surface scale
+        // Surface scale — resolved from CSS custom properties
         surface: {
-          base:    '#0A0F1E',
-          raised:  '#0F1629',
-          overlay: '#141C35',
-          border:  '#1E2A4A',
-          muted:   '#243060',
+          base:    'rgb(var(--color-surface-base) / <alpha-value>)',
+          raised:  'rgb(var(--color-surface-raised) / <alpha-value>)',
+          overlay: 'rgb(var(--color-surface-overlay) / <alpha-value>)',
+          border:  'rgb(var(--color-surface-border) / <alpha-value>)',
+          muted:   'rgb(var(--color-surface-muted) / <alpha-value>)',
         },
         // Brand accent — electric indigo
         accent: {
-          DEFAULT: '#4F6EF7',
-          hover:   '#6B85F9',
-          glow:    '#4F6EF740',
+          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+          hover:   'rgb(var(--color-accent-hover) / <alpha-value>)',
+          glow:    'rgb(var(--color-accent) / <alpha-value>)',
         },
         // Text scale
         ink: {
-          primary:   '#F0F4FF',
-          secondary: '#8B9CC8',
-          tertiary:  '#5A6B96',
+          primary:   'rgb(var(--color-ink-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-ink-secondary) / <alpha-value>)',
+          tertiary:  'rgb(var(--color-ink-tertiary) / <alpha-value>)',
         },
         // Semantic states
-        positive: { DEFAULT: '#22C55E', dim: '#22C55E14' },
-        negative: { DEFAULT: '#EF4444', dim: '#EF444414' },
-        // Legacy aliases — kept for migration safety, remove after all components updated
-        offwhite:  '#F0F4FF',
-        bluish:    '#8B9CC8',
-        navyblue:  '#0F1629',
-        lightwhite:'#8B9CC8',
-        darkblue:  '#0A0F1E',
-        coinblue:  '#0F1629',
-        navgreen:  '#22C55E',
-        navred:    '#EF4444',
-        lightblue: '#5A6B96',
+        positive: {
+          DEFAULT: 'rgb(var(--color-positive) / <alpha-value>)',
+          dim:     'rgb(var(--color-positive) / <alpha-value>)',
+        },
+        negative: {
+          DEFAULT: 'rgb(var(--color-negative) / <alpha-value>)',
+          dim:     'rgb(var(--color-negative) / <alpha-value>)',
+        },
+        // Legacy aliases — remapped to CSS vars so old components also theme-switch
+        offwhite:   'rgb(var(--color-ink-primary) / <alpha-value>)',
+        bluish:     'rgb(var(--color-ink-secondary) / <alpha-value>)',
+        navyblue:   'rgb(var(--color-surface-raised) / <alpha-value>)',
+        lightwhite: 'rgb(var(--color-ink-secondary) / <alpha-value>)',
+        darkblue:   'rgb(var(--color-surface-base) / <alpha-value>)',
+        coinblue:   'rgb(var(--color-surface-raised) / <alpha-value>)',
+        navgreen:   'rgb(var(--color-positive) / <alpha-value>)',
+        navred:     'rgb(var(--color-negative) / <alpha-value>)',
+        lightblue:  'rgb(var(--color-ink-tertiary) / <alpha-value>)',
       },
       keyframes: {
         'ticker-scroll': {

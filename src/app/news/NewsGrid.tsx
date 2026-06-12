@@ -57,9 +57,9 @@ function NoApiKey() {
       <p className="mt-2 mx-auto max-w-sm text-sm text-ink-secondary">
         Add a{' '}
         <code className="rounded bg-surface-overlay px-1.5 py-0.5 text-xs text-accent">
-          CRYPTOPANIC_API_TOKEN
+          GNEWS_API_KEY
         </code>{' '}
-        to your environment variables to enable live crypto news from CryptoPanic.
+        to your environment variables to enable live crypto news from GNews.
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-2">
         {['Bitcoin', 'Ethereum', 'DeFi', 'NFT', 'Web3', 'Markets'].map((tag) => (
