@@ -1,26 +1,23 @@
-import Banner from './components/Banner/index';
-import Companies from './components/Companies/index';
-import Work from './components/Work/index';
+import Hero from './components/Banner/index';
+import MarketTicker from '@/components/ui/MarketTicker';
+import StatBar from './components/Stats';
 import Table from './components/Table/index';
-import Features from './components/Features/index';
-import Simple from './components/Simple/index';
-import Trade from './components/Trade/index';
-import Faq from './components/Faq/index';
-import Stats from './components/Stats';
+import { serverFetchCoins, serverFetchStats } from '@/lib/api/server';
 
+export default async function Home() {
+  const [coinsData, statsData] = await Promise.all([
+    serverFetchCoins(10),
+    serverFetchStats(),
+  ]);
+  const topCoins = coinsData?.data?.coins ?? [];
+  const stats    = statsData?.data ?? null;
 
-export default function Home() {
   return (
     <main>
-      <Banner />
-      <Stats/>
-      <Companies />
-      <Work />
-      <Table />
-      <Features />
-      <Simple />
-      <Trade />
-      <Faq />
+      <Hero topCoins={topCoins} />
+      <MarketTicker coins={topCoins} />
+      <StatBar stats={stats} />
+      <Table coins={topCoins} />
     </main>
-  )
+  );
 }

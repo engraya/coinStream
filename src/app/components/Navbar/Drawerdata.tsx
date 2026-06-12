@@ -1,49 +1,51 @@
-import React from "react";
-import Link from "next/link";
-import { logo } from "@public/images/images";
-interface NavigationItem {
-    name: string;
-    href: string;
-    current: boolean;
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils/cn';
+
+const navigation = [
+  { name: 'Home',             href: '/' },
+  { name: 'Cryptocurrencies', href: '/cryptocurrencies' },
+  { name: 'Exchanges',        href: '/exchanges' },
+  { name: 'News',             href: '/news' },
+  { name: 'Watchlist',        href: '/watchlist' },
+];
+
+interface DrawerdataProps {
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-const navigation: NavigationItem[] = [
-    { name: 'Home', href: '/', current: false },
-    { name: 'Currencies', href: '/currencies', current: false },
-    { name: 'Exchange', href: '/exchanges', current: false },
-    // { name: 'Features', href: '#features-section', current: false },
-    // { name: 'FAQ', href: '#faq-section', current: false },
-]
+const Drawerdata = ({ setIsOpen }: DrawerdataProps) => {
+  const pathname = usePathname();
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+  return (
+    <nav className="px-3">
+      {navigation.map((item) => {
+        const isActive =
+          item.href === '/'
+            ? pathname === '/'
+            : pathname.startsWith(item.href);
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            onClick={() => setIsOpen(false)}
+            aria-current={isActive ? 'page' : undefined}
+            className={cn(
+              'block rounded-lg px-4 py-3 text-sm font-medium transition-colors',
+              isActive
+                ? 'bg-surface-overlay text-ink-primary'
+                : 'text-ink-secondary hover:bg-surface-overlay hover:text-ink-primary'
+            )}
+          >
+            {item.name}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+};
 
-const Data = () => {
-    return (
-        <div className="rounded-md max-w-sm w-full">
-            <div className="flex-1 space-y-4 py-1">
-                <div className="sm:block">
-                    <div className="space-y-1 px-5 pt-2 pb-3">
-                        {navigation.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className={classNames(
-                                    item.current ? 'bg-gray-900 text-purple' : 'text-black hover:bg-gray-700 hover:text-purple',
-                                    'block  py-2 rounded-md text-base font-medium'
-                                )}
-                                aria-current={item.current ? 'page' : undefined}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
-                        <div className="mt-4"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-export default Data;
+export default Drawerdata;

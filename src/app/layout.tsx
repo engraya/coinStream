@@ -1,31 +1,32 @@
 import './globals.css';
-import '@/node_modules/react-modal-video/scss/modal-video.scss';
 import Navbar from './components/Navbar/index';
 import Footer from './components/Footer/index';
-
+import { Providers } from './providers';
 
 export const metadata = {
-  title: 'Coinstream',
-  description: '',
+  title: 'CoinStream — Real-Time Crypto Tracker',
+  description: 'Track real-time cryptocurrency prices, market caps, exchanges, and trends with CoinStream.',
   icons: {
     icon: '/logo.svg',
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col bg-surface-base text-ink-primary antialiased">
+        <Providers>
+          <Navbar />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
-  )
+  );
 }

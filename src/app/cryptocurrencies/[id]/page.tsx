@@ -1,299 +1,194 @@
-import SharePost from "@src/app/components/Blog/SharePost";
-import TagButton from "@src/app/components/Blog/TagButton";
-import Link from "next/link";
-import Image from "next/image";
-import PagesContainer from "@src/app/components/PagesContainer";
-import { getCryptoById } from "@data/coinData";
+import React, { Suspense } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { ChevronLeftIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { serverFetchCoinById } from '@/lib/api/server';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { CoinDetailSkeleton } from '@/components/ui/Skeleton';
+import { Badge } from '@/components/ui/Badge';
+import CoinDetailClient from './CoinDetailClient';
+import {
+  formatPrice,
+  formatMarketCap,
+  formatVolume,
+  formatTimestamp,
+  formatSupply,
+} from '@/lib/utils/format';
+import PagesContainer from '@/app/components/PagesContainer';
 
-async function CryptoDetailsPage({ params } : {
-    params : {
-      id : string
-    }
-  }) {
+interface CoinDetailPageProps {
+  params: { id: string };
+}
 
-    const { id } = params
+export async function generateMetadata({ params }: CoinDetailPageProps) {
+  const data = await serverFetchCoinById(params.id);
+  const coin = data?.data?.coin;
+  return {
+    title: coin ? `${coin.name} (${coin.symbol}) — CoinStream` : 'Coin Details — CoinStream',
+    description: coin?.description ?? `Track ${coin?.name ?? 'coin'} price and market data.`,
+  };
+}
 
-    const coinDeatils = await getCryptoById(id)
-    console.log("Coin Details", coinDeatils)
+export default async function CryptoDetailsPage({ params }: CoinDetailPageProps) {
+  const coinData = await serverFetchCoinById(params.id);
+  const coin = coinData?.data?.coin;
 
+  if (!coin) return notFound();
 
   return (
     <PagesContainer>
-          <>
-      <section className="overflow-hidden text-white">
-        <Link href={`/cryptocurrencies`}>
-        <div className="justify-center gap-6 mb-4">
-            <button className="relative">
-                <span className="absolute top-0 left-0 mt-1 ml-1 h-full w-full rounded bg-black" />
-                <span className="fold-bold relative inline-block h-full w-full rounded border-2 border-black bg-white px-3 py-1 text-base font-bold text-black transition duration-100 hover:bg-yellow-400 hover:text-gray-900">Back</span>
-            </button>
-        </div>
-        </Link>
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 lg:w-8/12">
-              <div>
-                <h1 className="mb-8 text-3xl font-bold leading-tight text-white dark:text-white sm:text-4xl sm:leading-tight">
-                  {coinDeatils.data.coin.name}
-                </h1>
-                <div className="mb-10 flex flex-wrap items-center justify-between border-b border-body-color border-opacity-10 pb-4 dark:border-white dark:border-opacity-10">
-                  <div className="flex flex-wrap items-center">
-                    <div className="mb-5 mr-10 flex items-center">
-                      <div className="mr-4">
-                        <div className="relative h-10 w-10 overflow-hidden rounded-full">
-                          <Image
-                            src={coinDeatils?.data?.coin?.iconUrl}
-                            alt="coin"
-                            fill
-                          />
-                        </div>
-                      </div>
-                      <div className="w-full">
-                        <span className="mb-1 text-base font-medium text-body-color">
-                        {coinDeatils.data.coin.symbol}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <p className="mb-10 text-base font-medium leading-relaxed text-body-color sm:text-lg sm:leading-relaxed lg:text-base lg:leading-relaxed xl:text-lg xl:leading-relaxed">
-                  {coinDeatils.data.coin.description}
-                  </p>
-                  <div className="mb-10 list-inside list-disc flex justify-between text-body-color">
-                  <div className="left">
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Market Cap: 
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Price: 
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Rank: 
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      BTC Price:
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Change:
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Number of Markets:
-                    </li>
-                    <li className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      Number of Exchanges: 
-                    </li>
-                  </div>
+      {/* Back link */}
+      <Link
+        href="/cryptocurrencies"
+        className="group mb-8 inline-flex items-center gap-1.5 text-sm text-ink-secondary transition-colors hover:text-ink-primary"
+      >
+        <ChevronLeftIcon className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+        All Cryptocurrencies
+      </Link>
 
-                  <div className="right text-right">
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.marketCap}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.price}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.rank}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.btcPrice}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.change}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                    {coinDeatils.data.coin.numberOfMarkets}
-                    </div>
-                    <div className="mb-2 text-base font-medium text-body-color sm:text-lg lg:text-base xl:text-lg">
-                      {coinDeatils.data.coin.numberOfExchanges}
-                    </div>
-                  </div>
-                </div>
-
-                  <div className="relative z-10 mb-10 overflow-hidden rounded-md bg-primary bg-opacity-10 p-8 md:p-9 lg:p-8 xl:p-9">
-                    <span className="absolute left-0 top-0 z-[-1]">
-                      <svg
-                        width="132"
-                        height="109"
-                        viewBox="0 0 132 109"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          opacity="0.5"
-                          d="M33.0354 90.11C19.9851 102.723 -3.75916 101.834 -14 99.8125V-15H132C131.456 -12.4396 127.759 -2.95278 117.318 14.5117C104.268 36.3422 78.7114 31.8952 63.2141 41.1934C47.7169 50.4916 49.3482 74.3435 33.0354 90.11Z"
-                          fill="url(#paint0_linear_111:606)"
-                        />
-                        <path
-                          opacity="0.5"
-                          d="M33.3654 85.0768C24.1476 98.7862 1.19876 106.079 -9.12343 108.011L-38.876 22.9988L100.816 -25.8905C100.959 -23.8126 99.8798 -15.5499 94.4164 0.87754C87.5871 21.4119 61.9822 26.677 49.5641 38.7512C37.146 50.8253 44.8877 67.9401 33.3654 85.0768Z"
-                          fill="url(#paint1_linear_111:606)"
-                        />
-                        <defs>
-                          <linearGradient
-                            id="paint0_linear_111:606"
-                            x1="94.7523"
-                            y1="82.0246"
-                            x2="8.40951"
-                            y2="52.0609"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="white" stopOpacity="0.06" />
-                            <stop
-                              offset="1"
-                              stopColor="white"
-                              stopOpacity="0"
-                            />
-                          </linearGradient>
-                          <linearGradient
-                            id="paint1_linear_111:606"
-                            x1="90.3206"
-                            y1="58.4236"
-                            x2="1.16149"
-                            y2="50.8365"
-                            gradientUnits="userSpaceOnUse"
-                          >
-                            <stop stopColor="white" stopOpacity="0.06" />
-                            <stop
-                              offset="1"
-                              stopColor="white"
-                              stopOpacity="0"
-                            />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </span>
-                    <span className="absolute bottom-0 right-0 z-[-1]">
-                      <svg
-                        width="53"
-                        height="30"
-                        viewBox="0 0 53 30"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          opacity="0.8"
-                          cx="37.5"
-                          cy="37.5"
-                          r="37.5"
-                          fill="#4A6CF7"
-                        />
-                        <mask
-                          id="mask0_111:596"
-                          style={{ maskType: "alpha" }}
-                          maskUnits="userSpaceOnUse"
-                          x="0"
-                          y="0"
-                          width="75"
-                          height="75"
-                        >
-                          <circle
-                            opacity="0.8"
-                            cx="37.5"
-                            cy="37.5"
-                            r="37.5"
-                            fill="#4A6CF7"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_111:596)">
-                          <circle
-                            opacity="0.8"
-                            cx="37.5"
-                            cy="37.5"
-                            r="37.5"
-                            fill="url(#paint0_radial_111:596)"
-                          />
-                          <g opacity="0.8" filter="url(#filter0_f_111:596)">
-                            <circle
-                              cx="40.8089"
-                              cy="19.853"
-                              r="15.4412"
-                              fill="white"
-                            />
-                          </g>
-                        </g>
-                        <defs>
-                          <filter
-                            id="filter0_f_111:596"
-                            x="4.36768"
-                            y="-16.5881"
-                            width="72.8823"
-                            height="72.8823"
-                            filterUnits="userSpaceOnUse"
-                            colorInterpolationFilters="sRGB"
-                          >
-                            <feFlood
-                              floodOpacity="0"
-                              result="BackgroundImageFix"
-                            />
-                            <feBlend
-                              mode="normal"
-                              in="SourceGraphic"
-                              in2="BackgroundImageFix"
-                              result="shape"
-                            />
-                            <feGaussianBlur
-                              stdDeviation="10.5"
-                              result="effect1_foregroundBlur_111:596"
-                            />
-                          </filter>
-                          <radialGradient
-                            id="paint0_radial_111:596"
-                            cx="0"
-                            cy="0"
-                            r="1"
-                            gradientUnits="userSpaceOnUse"
-                            gradientTransform="translate(37.5 37.5) rotate(90) scale(40.2574)"
-                          >
-                            <stop stopOpacity="0.47" />
-                            <stop offset="1" stopOpacity="0" />
-                          </radialGradient>
-                        </defs>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
+      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+        {/* Main column */}
+        <div>
+          {/* Coin header */}
+          <div className="mb-6 flex items-center gap-4">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-surface-border">
+              <Image src={coin.iconUrl} alt={coin.name} fill unoptimized className="object-cover" />
             </div>
-            <div className="w-full px-4 lg:w-4/12">
-              <div className="shadow-three dark:bg-gray-dark mb-10 rounded-sm dark:shadow-none">
-                <h3 className="border-b border-body-color border-opacity-10 px-8 py-4 text-lg font-semibold text-white dark:border-white dark:border-opacity-10 dark:text-white">
-                  All Time High
-                </h3>
-                <ul className="px-8 py-6">
-                  <li>
-                      Price :  $ {coinDeatils.data.coin.allTimeHigh.price}
-                  </li>
-                  <li>
-                      Timestamp : {coinDeatils.data.coin.allTimeHigh.timestamp}
-                  </li>
-                </ul>
-              </div>
-              <div className="shadow-three dark:bg-gray-dark mb-10 rounded-sm dark:shadow-none">
-                <h3 className="border-b border-body-color border-opacity-10 px-8 py-4 text-lg font-semibold text-white dark:border-white dark:border-opacity-10 dark:text-white">
-                  Supply
-                </h3>
-                <div className="flex flex-wrap px-8 py-6 text-white">
-                <ul className="py-6">
-                  <li>
-                        Confirmed: {coinDeatils.data.coin.supply.confirmed ? "True" : ""}
-                  </li>
-                  <li>
-                      Circulating :  {coinDeatils.data.coin.supply.circulating}
-                  </li>
-                  <li>
-                      Total :  {coinDeatils.data.coin.supply.total}
-                  </li>
-                </ul>
-                </div>
+            <div>
+              <h1 className="text-2xl font-bold text-ink-primary sm:text-3xl">{coin.name}</h1>
+              <div className="mt-1.5 flex items-center gap-2">
+                <span className="text-sm text-ink-secondary">{coin.symbol}</span>
+                <span className="rounded-md border border-surface-border bg-surface-overlay px-2 py-0.5 text-xs text-ink-tertiary">
+                  Rank #{coin.rank}
+                </span>
+                <Badge value={coin.change} />
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </>
-    </PagesContainer>
-  )
-}
 
-export default CryptoDetailsPage
+          {/* Price */}
+          <div className="mb-8">
+            <p className="text-4xl font-bold tabular-nums text-ink-primary">
+              {formatPrice(coin.price)}
+            </p>
+          </div>
+
+          {/* Chart + watchlist toggle */}
+          <ErrorBoundary>
+            <Suspense fallback={<CoinDetailSkeleton />}>
+              <CoinDetailClient
+                coinId={params.id}
+                initialSparkline={coin.sparkline}
+                coinColor={coin.color}
+              />
+            </Suspense>
+          </ErrorBoundary>
+
+          {/* Description */}
+          {coin.description && (
+            <div className="mt-8 rounded-xl border border-surface-border bg-surface-raised p-6">
+              <h2 className="mb-3 text-base font-semibold text-ink-primary">About {coin.name}</h2>
+              <p className="text-sm leading-relaxed text-ink-secondary">{coin.description}</p>
+            </div>
+          )}
+
+          {/* Key Metrics */}
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[
+              { label: 'Market Cap',  value: formatMarketCap(coin.marketCap) },
+              { label: 'Price',       value: formatPrice(coin.price) },
+              { label: '24H Volume',  value: formatVolume(coin['24hVolume']) },
+              { label: 'BTC Price',   value: parseFloat(coin.btcPrice).toFixed(8) + ' BTC' },
+              { label: 'Markets',     value: coin.numberOfMarkets.toLocaleString() },
+              { label: 'Exchanges',   value: coin.numberOfExchanges.toLocaleString() },
+              { label: 'Listed',      value: formatTimestamp(coin.listedAt) },
+              { label: 'Tier',        value: String(coin.tier) },
+            ].map(({ label, value }) => (
+              <div key={label} className="rounded-xl border border-surface-border bg-surface-raised p-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-ink-tertiary">{label}</p>
+                <p className="mt-2 text-sm font-semibold tabular-nums text-ink-primary">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div>
+          {/* All Time High */}
+          <div className="mb-4 overflow-hidden rounded-xl border border-surface-border bg-surface-raised">
+            <h3 className="border-b border-surface-border px-5 py-3 text-sm font-semibold text-ink-primary">
+              All Time High
+            </h3>
+            <ul className="space-y-3 px-5 py-4 text-sm">
+              <li className="flex items-center justify-between">
+                <span className="text-ink-tertiary">Price</span>
+                <span className="font-semibold tabular-nums text-ink-primary">{formatPrice(coin.allTimeHigh.price)}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-ink-tertiary">Date</span>
+                <span className="font-medium text-ink-primary">{formatTimestamp(coin.allTimeHigh.timestamp)}</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Supply */}
+          <div className="mb-4 overflow-hidden rounded-xl border border-surface-border bg-surface-raised">
+            <h3 className="border-b border-surface-border px-5 py-3 text-sm font-semibold text-ink-primary">
+              Supply
+            </h3>
+            <ul className="space-y-3 px-5 py-4 text-sm">
+              <li className="flex items-center justify-between">
+                <span className="text-ink-tertiary">Confirmed</span>
+                <span className={`font-medium ${coin.supply.confirmed ? 'text-positive' : 'text-negative'}`}>
+                  {coin.supply.confirmed ? 'Yes' : 'No'}
+                </span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-ink-tertiary">Circulating</span>
+                <span className="font-medium tabular-nums text-ink-primary">{formatSupply(coin.supply.circulating)}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-ink-tertiary">Total</span>
+                <span className="font-medium tabular-nums text-ink-primary">{formatSupply(coin.supply.total)}</span>
+              </li>
+              {coin.supply.max && (
+                <li className="flex items-center justify-between">
+                  <span className="text-ink-tertiary">Max</span>
+                  <span className="font-medium tabular-nums text-ink-primary">{formatSupply(coin.supply.max)}</span>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Links */}
+          {coin.links && coin.links.length > 0 && (
+            <div className="overflow-hidden rounded-xl border border-surface-border bg-surface-raised">
+              <h3 className="border-b border-surface-border px-5 py-3 text-sm font-semibold text-ink-primary">
+                Links
+              </h3>
+              <ul className="divide-y divide-surface-border">
+                {coin.links.slice(0, 6).map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between px-5 py-3 text-sm text-accent transition-colors hover:text-accent-hover hover:bg-surface-overlay"
+                    >
+                      <span>{link.name}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs capitalize text-ink-tertiary">{link.type}</span>
+                        <ArrowTopRightOnSquareIcon className="h-3 w-3 text-ink-tertiary group-hover:text-accent-hover" />
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </PagesContainer>
+  );
+}
